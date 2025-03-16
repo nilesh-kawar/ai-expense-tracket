@@ -1,7 +1,7 @@
 import { Telegraf } from "telegraf";
 import { checkDatabaseMiddleware } from "./middleware/db.middleware";
 import { registerCommands } from "./commands";
-import { env } from "../../config/env";
+import { env } from "../config/env";
 
 export class BotService {
   private bot: Telegraf;

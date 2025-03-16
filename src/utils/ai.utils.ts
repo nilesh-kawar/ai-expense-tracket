@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { env } from '../../config/env';
+import { env } from '../config/env';
 
 export class AIUtils {
   private static client: OpenAI;

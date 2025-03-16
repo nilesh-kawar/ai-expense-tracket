@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import { BotService } from "./services/bot.service";
-import { env } from "../config/env";
+import { env } from "./config/env";
 
 const app = express();
 const port = env.PORT || 3000;
