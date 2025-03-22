@@ -16,4 +16,5 @@ exports.env = {
     TEMPERATURE: process.env.TEMPERATURE,
     MAX_TOKENS: process.env.MAX_TOKENS,
     TOP_P: process.env.TOP_P,
+    WEBHOOK_URL: process.env.WEBHOOK_URL,
 };

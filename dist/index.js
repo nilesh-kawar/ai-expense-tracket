@@ -16,11 +16,18 @@ bot.start();
 mongoose_1.default
     .connect(env_1.env.MONGODB_URI)
     .then(() => {
-    console.log("✅ Connected to MongoDB!");
+    console.log("✅ Connected to MongoDB!!!");
 })
     .catch((error) => {
     console.error("❌ Error connecting to MongoDB:", error);
 });
+if (process.env.NODE_ENV === "production") {
+    // ✅ Use webhook in production
+    const WEBHOOK_URL = env_1.env.WEBHOOK_URL || "https://ai-expense-tracket.onrender.com/webhook";
+    bot.telegram.setWebhook(WEBHOOK_URL);
+    app.use(bot.webhookCallback("/webhook"));
+    console.log("🚀 Running in production mode with webhook");
+}
 // Start the Express server
 app.listen(port, () => {
     console.log(`🌐 Server is running on port ${port}`);

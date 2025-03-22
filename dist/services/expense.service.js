@@ -20,7 +20,10 @@ function handleExpenseMessage(ctx, userId, userInput) {
     return __awaiter(this, void 0, void 0, function* () {
         const parsedData = yield (0, ai_utils_1.parseExpense)(userInput);
         console.log("parsedData--", parsedData);
-        let { amount, account, category } = parsedData;
+        let { amount, account, category, description } = parsedData;
+        if (!amount) {
+            return ctx.reply("🧐 Please provide a valid expense.\n\n *Example:* `Spent 100 on groceries from HDFC Bank.`", { parse_mode: "Markdown" });
+        }
         // Fetch user accounts from DB
         const user = yield user_service_1.UserService.getUser(userId);
         if (!user)
@@ -36,13 +39,12 @@ function handleExpenseMessage(ctx, userId, userInput) {
             return ctx.reply("🧐 What type of expense is this??", telegraf_1.Markup.inlineKeyboard(user.categories.map((cat) => telegraf_1.Markup.button.callback(cat, `SELECT_CATEGORY_${cat}`)), { columns: 3 }));
         }
         // Save the expense
-        //   await UserService.addExpense(userId, { amount, account, category });
         const expense = yield user_service_1.UserService.addExpense(userId, {
             amount: amount || 0,
             account,
             category,
+            description: description || undefined
         });
-        console.log("expense====", expense);
         if (!expense)
             return ctx.reply("⚠️ Failed to add expense!");
         ctx.reply(`✅ Added ₹${amount} under "${category}" from ${account}!`);
@@ -63,7 +65,7 @@ function handleAccountSelection(ctx, userId, account) {
             return ctx.reply("🧐 What type of expense is this?", Object.assign({}, telegraf_1.Markup.inlineKeyboard(user.categories.map((cat) => telegraf_1.Markup.button.callback(cat, `SELECT_CATEGORY_${cat}`)))));
         }
         // Save if category is present
-        yield saveExpense(ctx, userId, expense.amount, expense.account, expense.category);
+        yield saveExpense(ctx, userId, expense.amount, expense.account, expense.category, expense.description);
     });
 }
 // Handles category selection
@@ -85,12 +87,13 @@ function handleCategorySelection(ctx, userId, category) {
     });
 }
 // Saves the expense to the DB
-function saveExpense(ctx, userId, amount, account, category) {
+function saveExpense(ctx, userId, amount, account, category, description) {
     return __awaiter(this, void 0, void 0, function* () {
         const expense = yield user_service_1.UserService.addExpense(userId, {
             amount,
             account,
             category,
+            description
         });
         console.log("expense====", expense);
         if (!expense)

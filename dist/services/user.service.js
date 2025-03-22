@@ -39,7 +39,7 @@ class UserService {
                 amount: data.amount,
                 category: data.category,
                 bank: data.account,
-                description: `${data.category} expense` // Default description
+                description: data.description || `${data.category} expense`, // Default description
             });
         });
     }

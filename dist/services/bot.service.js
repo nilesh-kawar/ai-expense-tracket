@@ -24,5 +24,14 @@ class BotService {
         process.once("SIGINT", () => this.bot.stop("SIGINT"));
         process.once("SIGTERM", () => this.bot.stop("SIGTERM"));
     }
+    webhookCallback(path) {
+        return this.bot.webhookCallback(path);
+    }
+    get telegram() {
+        return this.bot.telegram;
+    }
+    launch() {
+        return this.bot.launch();
+    }
 }
 exports.BotService = BotService;

@@ -28,7 +28,7 @@ function setupStartCommand(bot, userStates) {
             "Just <b>drop your expenses</b> or <b>forward transaction SMS</b> my way 💸📩\n\n" +
             "I'll handle the rest! 🚀", { parse_mode: "HTML" });
         if (!user) {
-            yield ctx.reply("👀 Hey bestie, looks like you're new here!\n\n" +
+            yield ctx.reply("👀 Hey, looks like you're new here!\n\n" +
                 "Drop your bank & credit card names like this:\n" +
                 "👉 HDFC Bank, SBI Credit Card\n\n" +
                 "Let's get this 💸 tracking started! 🚀", Object.assign({ parse_mode: "Markdown" }, telegraf_1.Markup.inlineKeyboard([

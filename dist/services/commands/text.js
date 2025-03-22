@@ -44,18 +44,31 @@ function setupText(bot, userStates) {
     }));
     // Handle account selection
     bot.action(/^SELECT_ACCOUNT_(.+)$/, (ctx) => __awaiter(this, void 0, void 0, function* () {
-        var _a;
+        var _a, _b;
         const userId = (_a = ctx.from) === null || _a === void 0 ? void 0 : _a.id.toString();
         const account = ctx.match[1];
         yield ctx.answerCbQuery();
         yield (0, expense_service_1.handleAccountSelection)(ctx, userId, account);
+        // Delete the message containing accounts selection buttons
+        if ((_b = ctx.callbackQuery) === null || _b === void 0 ? void 0 : _b.message) {
+            ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch((err) => {
+                console.log("Error deleting message:", err);
+            });
+        }
     }));
     // Handle category selection
     bot.action(/^SELECT_CATEGORY_(.+)$/, (ctx) => __awaiter(this, void 0, void 0, function* () {
-        var _a;
+        var _a, _b;
         const userId = (_a = ctx.from) === null || _a === void 0 ? void 0 : _a.id.toString();
         const category = ctx.match[1];
         yield ctx.answerCbQuery();
+        // Process the category selection
         yield (0, expense_service_1.handleCategorySelection)(ctx, userId, category);
+        // Delete the message containing category selection buttons
+        if ((_b = ctx.callbackQuery) === null || _b === void 0 ? void 0 : _b.message) {
+            ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch((err) => {
+                console.log("Error deleting message:", err);
+            });
+        }
     }));
 }
