@@ -20,7 +20,7 @@ export function setupStartCommand(bot: Telegraf, userStates: Map<string, string>
 
     if (!user) {
       await ctx.reply(
-        "👀 Hey bestie, looks like you're new here!\n\n" +
+        "👀 Hey, looks like you're new here!\n\n" +
           "Drop your bank & credit card names like this:\n" +
           "👉 HDFC Bank, SBI Credit Card\n\n" +
           "Let's get this 💸 tracking started! 🚀",

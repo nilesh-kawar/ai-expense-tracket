@@ -41,6 +41,13 @@ export function setupText(bot: Telegraf, userStates: Map<string, string>) {
     const account = ctx.match[1];
     await ctx.answerCbQuery();
     await handleAccountSelection(ctx, userId, account);
+
+    // Delete the message containing accounts selection buttons
+    if (ctx.callbackQuery?.message) {
+      ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch((err) => {
+        console.log("Error deleting message:", err);
+      });
+    }
   });
 
   // Handle category selection
@@ -48,7 +55,16 @@ export function setupText(bot: Telegraf, userStates: Map<string, string>) {
     const userId = ctx.from?.id.toString();
     const category = ctx.match[1];
     await ctx.answerCbQuery();
+
+    // Process the category selection
     await handleCategorySelection(ctx, userId, category);
+
+    // Delete the message containing category selection buttons
+    if (ctx.callbackQuery?.message) {
+      ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch((err) => {
+        console.log("Error deleting message:", err);
+      });
+    }
   });
 }
 

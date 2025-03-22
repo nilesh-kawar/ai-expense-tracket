@@ -11,7 +11,14 @@ export async function handleExpenseMessage(
 ) {
   const parsedData: Expense = await parseExpense(userInput);
   console.log("parsedData--", parsedData);
-  let { amount, account, category } = parsedData;
+  let { amount, account, category, description } = parsedData;
+
+  if(!amount){
+    return ctx.reply(
+      "🧐 Please provide a valid expense.\n\n *Example:* `Spent 100 on groceries from HDFC Bank.`",
+      { parse_mode: "Markdown" }
+    );
+  }
 
   // Fetch user accounts from DB
   const user = await UserService.getUser(userId);
@@ -22,6 +29,7 @@ export async function handleExpenseMessage(
 
   // Store temporary expense data
   pendingExpenses.set(userId, { amount, account, category });
+
   // If account is missing, ask user to select one
   if (!account) {
     return ctx.reply(
@@ -48,14 +56,13 @@ export async function handleExpenseMessage(
   }
 
   // Save the expense
-  //   await UserService.addExpense(userId, { amount, account, category });
   const expense = await UserService.addExpense(userId, {
     amount: amount || 0,
     account,
     category,
+    description: description || undefined
   });
-  console.log("expense====", expense);
-
+ 
   if (!expense) return ctx.reply("⚠️ Failed to add expense!");
   ctx.reply(`✅ Added ₹${amount} under "${category}" from ${account}!`);
 }
@@ -93,7 +100,8 @@ export async function handleAccountSelection(
     userId,
     expense.amount,
     expense.account,
-    expense.category
+    expense.category,
+    expense.description
   );
 }
 
@@ -140,12 +148,14 @@ async function saveExpense(
   userId: string,
   amount: number,
   account: string,
-  category: string
+  category: string,
+  description?: string
 ) {
   const expense = await UserService.addExpense(userId, {
     amount,
     account,
     category,
+    description
   });
   console.log("expense====", expense);
 

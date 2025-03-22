@@ -20,6 +20,12 @@ mongoose
     console.error("❌ Error connecting to MongoDB:", error);
   });
 
+// ✅ Register webhook route
+app.use(bot.webhookCallback("/webhook"));
+
+// ✅ Set webhook in Telegram API
+bot.telegram.setWebhook("https://4fc5-59-152-121-201.ngrok-free.app/webhook");
+
 // Start the Express server
 app.listen(port, () => {
   console.log(`🌐 Server is running on port ${port}`);

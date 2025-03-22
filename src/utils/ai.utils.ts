@@ -66,6 +66,7 @@ export interface Expense {
   account: string | null;
   category: string | null;  
   message: string;
+  description: string | null;
 }
 
 // Example system prompt for bank validation
@@ -101,14 +102,15 @@ Analyze the user's input and extract the amount, account, and category.
 
 Return only a valid JSON object with no extra text, explanations, or formatting. Do not add "json" or backticks around the response.
 
-Example valid input: "1000 from HDFC Bank for food"
+Example valid input: "1000 from HDFC Bank in ABC restaurant"
 Example response:
 {
   "isValid": true,
   "amount": 1000,
   "account": "HDFC Bank",
   "category": "Food",
-  "message": "Valid expense message"
+  "message": "Valid expense message",
+  "description": "ABC restaurant"
 }
 
 Example invalid input: "random message"
@@ -118,7 +120,8 @@ Example response:
   "amount": null,
   "account": null,
   "category": null,
-  "message": "Invalid expense message"
+  "message": "Invalid expense message",
+  "description": null
 }
 
 Also check if input message has all the information to parse the expense.
@@ -129,7 +132,8 @@ Example response:
   "amount": null,
   "account": null,
   "category": null,
-  "message": "Category is missing in the Expense message"
+  "message": "Category is missing in the Expense message",
+  "description": null
 }
 
 Available categories: ["Food","Groceries","Rent","Bills","Transport","Shopping","Entertainment","Health","Travel","Other"]

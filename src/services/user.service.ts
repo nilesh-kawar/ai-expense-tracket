@@ -18,13 +18,18 @@ export class UserService {
     return await DBUtils.update(User, { userId }, { accounts });
   }
 
-  static async addExpense(userId: string, data: { amount: number, account: string, category: string }) {
+  static async addExpense(userId: string, data: { 
+    amount: number, 
+    account: string, 
+    category: string,
+    description?: string 
+  }) {
     return await DBUtils.create(ExpenseModel, {
       userId,
       amount: data.amount,
       category: data.category,
       bank: data.account,
-      description: `${data.category} expense` // Default description
+      description: data.description || `${data.category} expense`, // Default description
     });
   }
 }
