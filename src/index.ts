@@ -24,7 +24,15 @@ mongoose
 app.use(bot.webhookCallback("/webhook"));
 
 // ✅ Set webhook in Telegram API
-bot.telegram.setWebhook("https://4fc5-59-152-121-201.ngrok-free.app/webhook");
+bot.telegram.setWebhook("https://ai-expense-tracket.onrender.com/webhook");
+
+bot.telegram.setMyCommands([
+  { command: "summary", description: "📊 View last 10 transactions" },
+  { command: "add", description: "➕ Add a new expense" },
+  { command: "history", description: "📜 View full transaction history" },
+  { command: "settings", description: "⚙️ Change preferences" },
+]);
+
 
 // Start the Express server
 app.listen(port, () => {
