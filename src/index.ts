@@ -20,19 +20,14 @@ mongoose
     console.error("❌ Error connecting to MongoDB:", error);
   });
 
-// ✅ Register webhook route
-app.use(bot.webhookCallback("/webhook"));
-
-// ✅ Set webhook in Telegram API
-bot.telegram.setWebhook("https://ai-expense-tracket.onrender.com/webhook");
-
-bot.telegram.setMyCommands([
-  { command: "summary", description: "📊 View last 10 transactions" },
-  { command: "add", description: "➕ Add a new expense" },
-  { command: "history", description: "📜 View full transaction history" },
-  { command: "settings", description: "⚙️ Change preferences" },
-]);
-
+if (process.env.NODE_ENV === "production") {
+  // ✅ Use webhook in production
+  const WEBHOOK_URL =
+    env.WEBHOOK_URL || "https://ai-expense-tracket.onrender.com/webhook";
+  bot.telegram.setWebhook(WEBHOOK_URL);
+  app.use(bot.webhookCallback("/webhook"));
+  console.log("🚀 Running in production mode with webhook");
+}
 
 // Start the Express server
 app.listen(port, () => {

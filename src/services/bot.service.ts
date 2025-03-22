@@ -38,4 +38,8 @@ export class BotService {
   public get telegram() {
     return this.bot.telegram;
   }
+
+  public launch() {
+    return this.bot.launch();
+  }
 }
