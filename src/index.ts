@@ -35,7 +35,7 @@ async function ensureWebhook(url: string) {
 }
 
 if (process.env.NODE_ENV === "production") {
-  const WEBHOOK_URL = "https://ai-expense-tracket.vercel.app/webhook";
+  const WEBHOOK_URL = "https://ai-expense-tracket.onrender.com/webhook";
   ensureWebhook(WEBHOOK_URL);
   app.use(bot.webhookCallback("/webhook"));
 }
