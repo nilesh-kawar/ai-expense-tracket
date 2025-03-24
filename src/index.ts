@@ -19,17 +19,25 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB!"))
   .catch((error) => console.error("❌ Error connecting to MongoDB:", error));
 
+async function ensureWebhook(url: string) {
+  try {
+    const webhookInfo = await bot.telegram.getWebhookInfo();
+    if (webhookInfo.url === url) {
+      console.log("✅ Webhook is already set correctly.");
+      return;
+    }
+    console.log("🔄 Updating webhook...");
+    await bot.telegram.setWebhook(url);
+    console.log("✅ Webhook updated successfully!");
+  } catch (err) {
+    console.error("❌ Error checking/updating webhook:", err);
+  }
+}
+
 if (process.env.NODE_ENV === "production") {
-  // ✅ Hardcoded webhook URL
   const WEBHOOK_URL = "https://ai-expense-tracket.vercel.app/webhook";
-
-  bot.telegram
-    .setWebhook(WEBHOOK_URL)
-    .then(() => console.log("✅ Webhook set successfully!"))
-    .catch((err) => console.error("❌ Failed to set webhook:", err));
-
+  ensureWebhook(WEBHOOK_URL);
   app.use(bot.webhookCallback("/webhook"));
-  console.log("🚀 Running in production mode with webhook");
 }
 
 // Home Page Route
