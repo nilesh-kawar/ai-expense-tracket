@@ -20,14 +20,14 @@ mongoose
     console.error("❌ Error connecting to MongoDB:", error);
   });
 
-// if (process.env.NODE_ENV === "production") {
-//   // ✅ Use webhook in production
-//   const WEBHOOK_URL =
-//     env.WEBHOOK_URL || "https://ai-expense-tracket.onrender.com/webhook";
-//   bot.telegram.setWebhook(WEBHOOK_URL);
-//   app.use(bot.webhookCallback("/webhook"));
-//   console.log("🚀 Running in production mode with webhook");
-// }
+if (process.env.NODE_ENV === "production") {
+  // ✅ Use webhook in production
+  const WEBHOOK_URL =
+    env.WEBHOOK_URL || "https://ai-expense-tracket.vercel.app/webhook";
+  bot.telegram.setWebhook(WEBHOOK_URL);
+  app.use(bot.webhookCallback("/webhook"));
+  console.log("🚀 Running in production mode with webhook");
+}
 
 // Start the Express server
 app.listen(port, () => {
